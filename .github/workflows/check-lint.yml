@@ -11,7 +11,5 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: actionsx/prettier@v2
-
-    with:
-      # prettier CLI arguments.
-      args: --check .
+      with:
+        args: --check .
