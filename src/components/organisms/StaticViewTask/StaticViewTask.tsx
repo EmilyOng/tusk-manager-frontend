@@ -19,7 +19,7 @@ const StaticViewTask: React.FC<Props> = ({ task, states }) => {
         <p className="has-text-weight-bold">Description</p>
         <p>{task.description}</p>
         <p className="has-text-weight-bold">Due Date</p>
-        <p>{task.dueAt ? format(new Date(task.dueAt), DATE_FORMAT) : '-'}</p>
+        <p>{task.dueAt ? format(task.dueAt, DATE_FORMAT) : '-'}</p>
       </div>
 
       <p className="has-text-weight-bold">Tags</p>

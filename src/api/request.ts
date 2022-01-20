@@ -1,12 +1,17 @@
 import { Response } from 'generated/models'
+import { ErrorCode } from 'generated/types'
 import { getAuthToken } from 'utils/authToken'
 import { NotificationType, useNotification } from 'composables/notification'
 
 export function guardError(res: Response | any) {
-  if (res.error) {
+  if (
+    res.error &&
+    (res.error === ErrorCode.ServerError ||
+      res.error === ErrorCode.TypeMismatch)
+  ) {
     useNotification({
       type: NotificationType.Error,
-      message: res.error
+      message: 'Ooops...something went wrong. Please reload the page.'
     })
   }
   return res

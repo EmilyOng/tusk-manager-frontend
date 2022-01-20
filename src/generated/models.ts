@@ -1,6 +1,7 @@
 /* Do not change, this code is generated from Golang structs */
 import { Color } from './types'
 import { Role } from './types'
+import { ErrorCode } from './types'
 
 export interface Member {
   id: number
@@ -50,7 +51,7 @@ export interface GetBoardPayload {
   id: number
 }
 export interface GetBoardResponse {
-  error: string
+  error: ErrorCode
   data: BoardPrimitive
 }
 export interface CreateBoardPayload {
@@ -59,7 +60,7 @@ export interface CreateBoardPayload {
   userId: number
 }
 export interface CreateBoardResponse {
-  error: string
+  error: ErrorCode
   data: BoardPrimitive
 }
 export interface UpdateBoardPayload {
@@ -69,14 +70,14 @@ export interface UpdateBoardPayload {
   userId: number
 }
 export interface UpdateBoardResponse {
-  error: string
+  error: ErrorCode
   data: BoardPrimitive
 }
 export interface GetBoardTasksPayload {
   boardId: number
 }
 export interface GetBoardTasksResponse {
-  error: string
+  error: ErrorCode
   data: Task[]
 }
 export interface GetBoardTagsPayload {
@@ -89,7 +90,7 @@ export interface TagPrimitive {
   boardId?: number
 }
 export interface GetBoardTagsResponse {
-  error: string
+  error: ErrorCode
   data: TagPrimitive[]
 }
 export interface GetBoardMemberProfilesPayload {
@@ -106,7 +107,7 @@ export interface MemberProfile {
   profile: Profile
 }
 export interface GetBoardMemberProfilesResponse {
-  error: string
+  error: ErrorCode
   data: MemberProfile[]
 }
 export interface GetBoardStatesPayload {
@@ -119,17 +120,17 @@ export interface StatePrimitive {
   boardId?: number
 }
 export interface GetBoardStatesResponse {
-  error: string
+  error: ErrorCode
   data: StatePrimitive[]
 }
 export interface DeleteBoardPayload {
   id: number
 }
 export interface DeleteBoardResponse {
-  error: string
+  error: ErrorCode
 }
 export interface Response {
-  error: string
+  error: ErrorCode
 }
 
 export interface MemberPrimitive {
@@ -145,7 +146,7 @@ export interface CreateMemberPayload {
   boardId: number
 }
 export interface CreateMemberResponse {
-  error: string
+  error: ErrorCode
   data: MemberProfile
 }
 export interface UpdateMemberPayload {
@@ -153,14 +154,14 @@ export interface UpdateMemberPayload {
   role: Role
 }
 export interface UpdateMemberResponse {
-  error: string
+  error: ErrorCode
   data: MemberProfile
 }
 export interface DeleteMemberPayload {
   id: number
 }
 export interface DeleteMemberResponse {
-  error: string
+  error: ErrorCode
 }
 
 export interface CreateStatePayload {
@@ -169,7 +170,7 @@ export interface CreateStatePayload {
   currentPosition: number
 }
 export interface CreateStateResponse {
-  error: string
+  error: ErrorCode
   data: State
 }
 export interface UpdateStatePayload {
@@ -179,14 +180,14 @@ export interface UpdateStatePayload {
   currentPosition: number
 }
 export interface UpdateStateResponse {
-  error: string
+  error: ErrorCode
   data: StatePrimitive
 }
 export interface DeleteStatePayload {
   id: number
 }
 export interface DeleteStateResponse {
-  error: string
+  error: ErrorCode
 }
 
 export interface CreateTagPayload {
@@ -195,7 +196,7 @@ export interface CreateTagPayload {
   boardId: number
 }
 export interface CreateTagResponse {
-  error: string
+  error: ErrorCode
   data: TagPrimitive
 }
 export interface UpdateTagPayload {
@@ -205,14 +206,14 @@ export interface UpdateTagPayload {
   color: Color
 }
 export interface UpdateTagResponse {
-  error: string
+  error: ErrorCode
   data: TagPrimitive
 }
 export interface DeleteTagPayload {
   id: number
 }
 export interface DeleteTagResponse {
-  error: string
+  error: ErrorCode
 }
 
 export interface TaskPrimitive {
@@ -234,7 +235,7 @@ export interface CreateTaskPayload {
   userId: number
 }
 export interface CreateTaskResponse {
-  error: string
+  error: ErrorCode
   data: Task
 }
 export interface UpdateTaskPayload {
@@ -248,14 +249,14 @@ export interface UpdateTaskPayload {
   userId: number
 }
 export interface UpdateTaskResponse {
-  error: string
+  error: ErrorCode
   data: Task
 }
 export interface DeleteTaskPayload {
   id: number
 }
 export interface DeleteTaskResponse {
-  error: string
+  error: ErrorCode
 }
 export interface User {
   id: number
@@ -279,7 +280,7 @@ export interface AuthUser {
   token: string
 }
 export interface AuthUserResponse {
-  error: string
+  error: ErrorCode
   data: AuthUser
 }
 export interface LoginPayload {
@@ -287,7 +288,7 @@ export interface LoginPayload {
   password: string
 }
 export interface LoginResponse {
-  error: string
+  error: ErrorCode
   data: AuthUser
 }
 export interface SignUpPayload {
@@ -296,10 +297,10 @@ export interface SignUpPayload {
   password: string
 }
 export interface SignUpResponse {
-  error: string
+  error: ErrorCode
   data: AuthUser
 }
 export interface GetUserBoardsResponse {
-  error: string
+  error: ErrorCode
   data: BoardPrimitive[]
 }

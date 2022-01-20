@@ -2,12 +2,11 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import clsx from 'clsx'
 import React, { useEffect, useState } from 'react'
 import { StatePrimitive, TagPrimitive } from 'generated/models'
-import { Color } from 'generated/types'
 import Button from 'components/atoms/Button'
 import DatePicker from 'components/molecules/DatePicker'
 import DropdownSelect from 'components/molecules/DropdownSelect'
 import InputField from 'components/molecules/InputField'
-import TagsSelect from 'components/molecules/TagsSelect'
+import TagsSelect, { CreateTagForm } from 'components/molecules/TagsSelect'
 import TextArea from 'components/molecules/TextArea'
 import './FormTaskCreate.scoped.css'
 
@@ -26,15 +25,7 @@ type Props = {
   events: {
     onSubmit: (form: Form, cb: () => void) => any
     onCancel: () => any
-    onCreateTag: ({
-      name,
-      color,
-      cb
-    }: {
-      name: string
-      color: Color
-      cb: (tag: TagPrimitive) => void
-    }) => any
+    onCreateTag: (form: CreateTagForm, cb: (tag: TagPrimitive) => void) => any
   }
 }
 

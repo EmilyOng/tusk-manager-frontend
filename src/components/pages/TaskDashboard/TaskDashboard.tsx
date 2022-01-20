@@ -5,13 +5,13 @@ import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import { StatePrimitive, TagPrimitive, Task } from 'generated/models'
-import { Color } from 'generated/types'
 import { selectMe } from 'store/me'
 import { selectMeMember } from 'store/members'
 import { canEdit } from 'utils/role'
 import { useBoardStates, useBoardTags, useBoardTasks } from 'composables/board'
 import { NotificationType, useNotification } from 'composables/notification'
 import LoadingBar from 'components/molecules/LoadingBar'
+import { CreateTagForm } from 'components/molecules/TagsSelect'
 import { Form as CreateTaskForm } from 'components/organisms/FormTaskCreate'
 import { Form as EditTaskForm } from 'components/organisms/FormTaskEdit'
 import ListView from 'components/organisms/ListView'
@@ -95,19 +95,10 @@ function TaskDashboard() {
       .finally(() => cb())
   }
 
-  function createTag({
-    name,
-    color,
-    cb
-  }: {
-    name: string
-    color: Color
-    cb: (tag: TagPrimitive) => void
-  }) {
+  function createTag(form: CreateTagForm, cb: (tag: TagPrimitive) => void) {
     tagAPI
       .createTag({
-        name,
-        color,
+        ...form,
         boardId: boardId!
       })
       .then((res) => {

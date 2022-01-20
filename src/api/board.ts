@@ -38,13 +38,33 @@ export class BoardAPI {
   }
 
   async getTags(payload: GetBoardTagsPayload): Promise<GetBoardTagsResponse> {
-    return this.req.get(`/${payload.boardId}/tags`)
+    return this.req
+      .get(`/${payload.boardId}/tags`)
+      .then((res: GetBoardTagsResponse) => {
+        return {
+          ...res,
+          data: res.data ?? []
+        }
+      })
   }
 
   async getTasks(
     payload: GetBoardTasksPayload
   ): Promise<GetBoardTasksResponse> {
-    return this.req.get(`/${payload.boardId}/tasks`)
+    return this.req
+      .get(`/${payload.boardId}/tasks`)
+      .then((res: GetBoardTasksResponse) => {
+        return {
+          ...res,
+          data: res.data.map((task) => {
+            return {
+              ...task,
+              dueAt: task.dueAt ? new Date(task.dueAt) : undefined,
+              tags: task.tags ?? []
+            }
+          })
+        }
+      })
   }
 
   async getMemberProfiles(

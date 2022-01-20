@@ -13,7 +13,6 @@ import {
   TagPrimitive,
   Task
 } from 'generated/models'
-import { Color } from 'generated/types'
 import { canEdit } from 'utils/role'
 import Button from 'components/atoms/Button'
 import CardTask from 'components/molecules/CardTask'
@@ -22,6 +21,7 @@ import FilterSort, { TaskSortBy } from 'components/molecules/FilterSort'
 import ListViewHeader from 'components/molecules/ListViewHeader'
 import LoadingBar from 'components/molecules/LoadingBar'
 import ModalCard from 'components/molecules/ModalCard'
+import { CreateTagForm } from 'components/molecules/TagsSelect'
 import FormTaskCreate, { Form as CreateTaskForm } from '../FormTaskCreate'
 import FormTaskEdit, { Form as EditTaskForm } from '../FormTaskEdit'
 import StaticViewTask from '../StaticViewTask'
@@ -43,15 +43,7 @@ type Props = {
     onCreateTask: (form: CreateTaskForm, cb: () => void) => void
     onDeleteTask: (taskId: number, cb: () => void) => void
     onDragTask: (task: Task) => void
-    onCreateTag: ({
-      name,
-      color,
-      cb
-    }: {
-      name: string
-      color: Color
-      cb: (tag: TagPrimitive) => void
-    }) => any
+    onCreateTag: (form: CreateTagForm, cb: (tag: TagPrimitive) => void) => any
     onDragOver: (e: React.DragEvent<HTMLDivElement>) => void
     onDropTask: (
       e: React.DragEvent<HTMLDivElement>,
@@ -226,11 +218,7 @@ const ListView: React.FC<Props> = ({
     return tasks.sort((a, b) => {
       switch (sortBy) {
         case TaskSortBy.DueDate:
-          return !a.dueAt
-            ? 1
-            : !b.dueAt
-            ? -1
-            : compareAsc(new Date(a.dueAt), new Date(b.dueAt))
+          return !a.dueAt ? 1 : !b.dueAt ? -1 : compareAsc(a.dueAt, b.dueAt)
         case TaskSortBy.Name:
           const a_ = a.name.toLowerCase()
           const b_ = b.name.toLowerCase()

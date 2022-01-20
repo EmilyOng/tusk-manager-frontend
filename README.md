@@ -15,6 +15,7 @@ In order to use [react-scoped-css](https://github.com/gaoxiaoliangz/react-scoped
 - `yarn lint`: Performs code linting
 
 ### Setting up your environment
+
 The only environment variable needed is `REACT_APP_SERVER_URL`. This refers to the url that the application will make [API](src/api/request.ts) calls to.
 
 - (In `.env.production`) `REACT_APP_SERVER_URL`: https://tusk-manager-backend.herokuapp.com/api

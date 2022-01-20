@@ -113,8 +113,7 @@ const CardTask: React.FC<Props> = ({ canEdit, task, events }) => {
         {task.dueAt && (
           <span className="card-footer-item due-at">
             <code>
-              <Icon icon={faClock} />{' '}
-              {format(new Date(task.dueAt), DATE_FORMAT)}
+              <Icon icon={faClock} /> {format(task.dueAt, DATE_FORMAT)}
             </code>
           </span>
         )}

@@ -7,6 +7,7 @@ import './ModalCard.scoped.css'
 type Props = {
   title: string
   visible: boolean
+  dismissible?: boolean
   labels?: {
     ok?: string
     cancel?: string
@@ -16,7 +17,13 @@ type Props = {
   }
 }
 
-const ModalCard: React.FC<Props> = ({ title, visible, events, children }) => {
+const ModalCard: React.FC<Props> = ({
+  title,
+  visible,
+  events,
+  dismissible,
+  children
+}) => {
   if (!visible) {
     return null
   }
@@ -27,7 +34,10 @@ const ModalCard: React.FC<Props> = ({ title, visible, events, children }) => {
         'is-active': visible
       })}
     >
-      <div className="modal-background" onClick={events.onClose}></div>
+      <div
+        className="modal-background"
+        onClick={dismissible ? events.onClose : () => {}}
+      ></div>
       <div className="modal-card">
         <header className="modal-card-head">
           <p className="modal-card-title">{title}</p>

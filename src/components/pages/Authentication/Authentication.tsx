@@ -3,6 +3,7 @@ import clsx from 'clsx'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { ErrorCode } from 'generated/types'
 import { selectMe, setMe } from 'store/me'
 import Logo from 'assets/mosnter.png'
 import { NotificationType, useNotification } from 'composables/notification'
@@ -32,14 +33,18 @@ function Authentication() {
         .signUp({ ...form, name: form.name! })
         .then((res) => {
           if (res.error) {
+            switch (res.error) {
+              case ErrorCode.ConflictError:
+                return useNotification({
+                  type: NotificationType.Info,
+                  message:
+                    'A user with this email has already exist. Please use a different email!'
+                })
+            }
             return
           }
           dispatch(setMe(res.data))
           navigate('/', { replace: true })
-          useNotification({
-            type: NotificationType.Info,
-            message: 'Welcome!'
-          })
         })
         .finally(() => cb())
     } else {
@@ -47,10 +52,26 @@ function Authentication() {
         .login(form)
         .then((res) => {
           if (res.error) {
+            switch (res.error) {
+              case ErrorCode.UnauthorizedError:
+                return useNotification({
+                  type: NotificationType.Info,
+                  message: 'Invalid password. Please try again!'
+                })
+              case ErrorCode.NotFound:
+                return useNotification({
+                  type: NotificationType.Info,
+                  message: 'Email is invalid. Have you created an account?'
+                })
+            }
             return
           }
           dispatch(setMe(res.data))
           navigate('/', { replace: true })
+          useNotification({
+            type: NotificationType.Info,
+            message: 'Welcome back!'
+          })
         })
         .finally(() => cb())
     }

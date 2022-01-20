@@ -11,19 +11,16 @@ import DropdownItem from '../DropdownItem'
 import TagItemAddon from '../TagItemAddon'
 import './TagsSelect.scoped.css'
 
+export interface CreateTagForm {
+  name: string
+  color: Color
+}
+
 type Props = {
   tags: SelectableTag[]
   events: {
     onSelect: (tag: TagPrimitive) => any
-    onCreateTag: ({
-      name,
-      color,
-      cb
-    }: {
-      name: string
-      color: Color
-      cb: (tag: TagPrimitive) => void
-    }) => any
+    onCreateTag: (form: CreateTagForm, cb: (tag: TagPrimitive) => void) => any
   }
 }
 
@@ -63,16 +60,18 @@ const TagsSelect: React.FC<Props> = ({ tags, events }) => {
 
   function onCreateTag() {
     setIsCreatingTag(true)
-    events.onCreateTag({
-      name: tagInput,
-      color: Colors[tagInput.length % Colors.length],
-      cb: (tag: TagPrimitive) => {
+    events.onCreateTag(
+      {
+        name: tagInput,
+        color: Colors[tagInput.length % Colors.length]
+      },
+      (tag: TagPrimitive) => {
         setIsCreatingTag(false)
         setTagInput('') // Reset search input
         setSelectableTags([...selectableTags, { ...tag, selected: true }])
         events.onSelect(tag)
       }
-    })
+    )
   }
 
   function onTagInputChange(e: React.ChangeEvent<HTMLInputElement>) {

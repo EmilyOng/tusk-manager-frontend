@@ -11,3 +11,10 @@ export enum Role {
   Editor = 'Editor',
   Viewer = 'Viewer'
 }
+export enum ErrorCode {
+  NotFound = 'not_found',
+  ServerError = 'server_error',
+  UnauthorizedError = 'unauthorized',
+  TypeMismatch = 'type_mismatch',
+  ConflictError = 'conflict'
+}

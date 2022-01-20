@@ -2,12 +2,11 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import clsx from 'clsx'
 import React, { useEffect, useState } from 'react'
 import { StatePrimitive, TagPrimitive, Task } from 'generated/models'
-import { Color } from 'generated/types'
 import Button from 'components/atoms/Button'
 import DatePicker from 'components/molecules/DatePicker'
 import DropdownSelect from 'components/molecules/DropdownSelect'
 import InputField from 'components/molecules/InputField'
-import TagsSelect from 'components/molecules/TagsSelect'
+import TagsSelect, { CreateTagForm } from 'components/molecules/TagsSelect'
 import TextArea from 'components/molecules/TextArea'
 import './FormTaskEdit.scoped.css'
 
@@ -27,15 +26,7 @@ type Props = {
   events: {
     onSubmit: (form: Form, cb: () => void) => any
     onCancel: () => any
-    onCreateTag: ({
-      name,
-      color,
-      cb
-    }: {
-      name: string
-      color: Color
-      cb: (tag: TagPrimitive) => void
-    }) => any
+    onCreateTag: (form: CreateTagForm, cb: (tag: TagPrimitive) => void) => any
   }
 }
 
@@ -90,6 +81,14 @@ const FormTaskEdit: React.FC<Props> = ({ task, states, tags, events }) => {
     }
   }
 
+  function createTag(form: CreateTagForm, cb: (tag: TagPrimitive) => void) {
+    setSubmitting(true)
+    events.onCreateTag(form, (tag: TagPrimitive) => {
+      setSubmitting(false)
+      cb(tag)
+    })
+  }
+
   return (
     <form className="control" onSubmit={onSubmit_}>
       <InputField
@@ -110,7 +109,7 @@ const FormTaskEdit: React.FC<Props> = ({ task, states, tags, events }) => {
       <div className="field">
         <label className="label">Due Date</label>
         <DatePicker
-          date={form.dueAt ? new Date(form.dueAt) : undefined}
+          date={form.dueAt}
           events={{
             onChange: (dueAt: Date) => setForm({ ...form, dueAt })
           }}
@@ -124,7 +123,7 @@ const FormTaskEdit: React.FC<Props> = ({ task, states, tags, events }) => {
           })}
           events={{
             onSelect: (tag: TagPrimitive) => updateTags(tag),
-            onCreateTag: events.onCreateTag
+            onCreateTag: createTag
           }}
         />
       </div>
