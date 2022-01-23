@@ -2,13 +2,15 @@
 
 ![Vercel](https://vercelbadge.vercel.app/api/EmilyOng/cvwo-frontend)
 
-Application: https://www.app.tuskmanager.rocks/
+Application: https://app.tuskmanager.rocks
 
 ## Getting Started
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 In order to use [react-scoped-css](https://github.com/gaoxiaoliangz/react-scoped-css), this application uses [craco](https://github.com/gsoft-inc/craco) instead.
+
+Furthermore, it uses [Bulma](https://bulma.io/) as the CSS library-of-choice due to its lightweight, customizable and extensible features.
 
 - `yarn`: Installs the packages
 - `yarn start`: Runs the app in the development mode on [http://localhost:3000](http://localhost:3000)
@@ -33,4 +35,4 @@ The only environment variable needed is `REACT_APP_SERVER_URL`. This refers to t
 
 ### Deployment
 
-Deployment is handled automatically by Vercel when you push your changes to the `main` branch.
+Deployment is handled automatically by [Vercel](https://vercel.com/) when you push your changes to the `main` branch.
