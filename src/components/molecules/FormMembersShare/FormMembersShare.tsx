@@ -8,13 +8,13 @@ import InputField from 'components/molecules/InputField'
 import './FormMembersShare.scoped.css'
 
 export type Form = {
-  boardId: number
+  boardId: string
   email: string
   role: Role
 }
 
 type Props = {
-  boardId: number
+  boardId: string
   events: {
     onSubmit: (form: Form, cb: () => void) => any
   }

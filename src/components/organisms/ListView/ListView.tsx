@@ -41,7 +41,7 @@ type Props = {
   events: {
     onEditTask: (form: EditTaskForm, cb: () => void) => void
     onCreateTask: (form: CreateTaskForm, cb: () => void) => void
-    onDeleteTask: (taskId: number, cb: () => void) => void
+    onDeleteTask: (taskId: string, cb: () => void) => void
     onDragTask: (task: Task) => void
     onCreateTag: (form: CreateTagForm, cb: (tag: TagPrimitive) => void) => any
     onDragOver: (e: React.DragEvent<HTMLDivElement>) => void
@@ -50,7 +50,7 @@ type Props = {
       state: StatePrimitive
     ) => void
     onEditState: (newState: StatePrimitive, cb: () => void) => void
-    onDeleteState: (stateId: number, cb: () => void) => void
+    onDeleteState: (stateId: string, cb: () => void) => void
     onMoveStateLeft: (state: StatePrimitive, cb: () => void) => void
     onMoveStateRight: (state: StatePrimitive, cb: () => void) => void
   }
@@ -263,7 +263,7 @@ const ListView: React.FC<Props> = ({
   // 1: move right, -1: move left
   const [movingState, setMovingState] = useState<1 | -1 | null>(null)
 
-  function onDeleteState(stateId: number) {
+  function onDeleteState(stateId: string) {
     setDeletingState(true)
     events.onDeleteState(stateId, () => {
       closeStateDeleteCard()

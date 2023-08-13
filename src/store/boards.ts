@@ -5,7 +5,7 @@ import { BoardPrimitive } from 'generated/models'
 type BoardsState = {
   boards: BoardPrimitive[]
   loading: boolean
-  currentBoardId: number | null
+  currentBoardId: string | null
 }
 
 const initialState: BoardsState = {
@@ -37,7 +37,7 @@ export const BoardsSlice = createSlice({
     updateBoards(state, action: { payload: BoardPrimitive[] }) {
       state.boards = action.payload
     },
-    setCurrentBoardId(state, action: { payload: number | null }) {
+    setCurrentBoardId(state, action: { payload: string | null }) {
       state.currentBoardId = action.payload
     },
     resetBoards(state) {

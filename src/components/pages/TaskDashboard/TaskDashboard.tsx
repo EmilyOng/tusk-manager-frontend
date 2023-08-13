@@ -21,7 +21,7 @@ import './TaskDashboard.scoped.css'
 function TaskDashboard() {
   const location = useLocation()
   const { user: me } = useSelector(selectMe)
-  const [boardId, setBoardId] = useState<number | null>(null)
+  const [boardId, setBoardId] = useState<string | null>(null)
   const { loading: tasksLoading, tasks, updateTasks } = useBoardTasks(boardId)
   const { loading: tagsLoading, tags, updateTags } = useBoardTags(boardId)
   const {
@@ -37,7 +37,7 @@ function TaskDashboard() {
     if (!id) {
       return
     }
-    setBoardId(parseInt(id))
+    setBoardId(id)
   }, [location])
 
   const meMember = useSelector(selectMeMember)
@@ -67,7 +67,7 @@ function TaskDashboard() {
       .finally(() => cb())
   }
 
-  function deleteTask(taskId: number, cb: () => void) {
+  function deleteTask(taskId: string, cb: () => void) {
     taskAPI
       .deleteTask({ id: taskId })
       .then((res) => {
@@ -198,7 +198,7 @@ function TaskDashboard() {
       .finally(() => cb())
   }
 
-  function deleteState(stateId: number, cb: () => void) {
+  function deleteState(stateId: string, cb: () => void) {
     stateAPI
       .deleteState({ id: stateId })
       .then((res) => {

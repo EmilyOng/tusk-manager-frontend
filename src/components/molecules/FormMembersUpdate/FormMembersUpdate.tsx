@@ -64,7 +64,7 @@ const FormMembersUpdate: React.FC<Props> = ({
     events.onSubmit(members, () => setSubmitting(false))
   }
 
-  function onToggleDeleteMemberProfile(memberId: number) {
+  function onToggleDeleteMemberProfile(memberId: string) {
     setMembers(
       members.map((member) =>
         member.id === memberId
@@ -74,7 +74,7 @@ const FormMembersUpdate: React.FC<Props> = ({
     )
   }
 
-  function onChangeMemberRole(memberId: number, role: Role) {
+  function onChangeMemberRole(memberId: string, role: Role) {
     setMembers(
       members.map((member) =>
         member.id === memberId ? { ...member, role } : member

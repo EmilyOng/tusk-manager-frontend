@@ -78,8 +78,7 @@ const BoardTabs: React.FC = () => {
       return
     }
     // Redirect to the correct tab when boards are loaded
-    const boardId_ = location.pathname.replace('/', '')
-    const boardId = boardId_ ? parseInt(boardId_) : null
+    const boardId = location.pathname.replace('/', '')
     if (!currentBoardId) {
       if (boardId) {
         dispatch(setCurrentBoardId(boardId))
@@ -92,7 +91,7 @@ const BoardTabs: React.FC = () => {
     selectBoard(currentBoardId)
   }, [boardsLoading])
 
-  function selectBoard(id: number | null) {
+  function selectBoard(id: string | null) {
     dispatch(setCurrentBoardId(id))
     if (!id) {
       navigate('/')
@@ -191,7 +190,7 @@ const BoardTabs: React.FC = () => {
     })
   }
 
-  function deleteBoard(boardId: number, cb: () => void) {
+  function deleteBoard(boardId: string, cb: () => void) {
     boardAPI
       .deleteBoard({ id: boardId })
       .then((res) => {
@@ -284,7 +283,7 @@ const BoardTabs: React.FC = () => {
                 return <span key={board.id}>{board.name}</span>
               })}
               events={{
-                onSelect: (key: Key | null) => selectBoard(key as number)
+                onSelect: (key: Key | null) => selectBoard(key as string)
               }}
             />
           )

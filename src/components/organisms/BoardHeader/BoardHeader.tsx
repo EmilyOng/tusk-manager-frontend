@@ -28,10 +28,10 @@ import FormMembersManage, { ShareForm } from '../FormMembersManage'
 import './BoardHeader.scoped.css'
 
 type Props = {
-  boardId: number | null
+  boardId: string | null
   events: {
     onEditBoard: (form: Form, cb: () => void) => any
-    onDeleteBoard: (boardId: number, cb: () => void) => any
+    onDeleteBoard: (boardId: string, cb: () => void) => any
     onShareBoard: (
       sharing: ShareForm,
       cb: (newMember?: MemberProfile) => void
@@ -133,7 +133,7 @@ const BoardHeader: React.FC<Props> = ({ boardId, events }) => {
   }
 
   const [deletingBoard, setDeletingBoard] = useState(false)
-  function onDeleteBoard(boardId: number) {
+  function onDeleteBoard(boardId: string) {
     setDeletingBoard(true)
     events.onDeleteBoard(boardId, () => {
       setDeletingBoard(false)

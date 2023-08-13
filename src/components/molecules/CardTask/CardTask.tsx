@@ -19,7 +19,7 @@ type Props = {
   task: Task
   events: {
     onTaskEditing: (task: Task) => void
-    onDeleteTask: (taskId: number, cb: () => void) => void
+    onDeleteTask: (taskId: string, cb: () => void) => void
   }
 }
 
@@ -32,7 +32,7 @@ const CardTask: React.FC<Props> = ({ canEdit, task, events }) => {
       setConfirmingDelete(true)
     }
 
-    function onDeleteTask(taskId: number) {
+    function onDeleteTask(taskId: string) {
       setDeleting(true)
       events.onDeleteTask(taskId, () => setDeleting(false))
     }

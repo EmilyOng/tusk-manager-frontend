@@ -38,8 +38,7 @@ const FormTagEdit: React.FC<Props> = ({ tags: tags_, canEdit, events }) => {
   }, [tags_])
 
   function onInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const { name, value } = e.target
-    const id = parseInt(name)
+    const { name: id, value } = e.target
     setTags(tags.map((tag) => (tag.id === id ? { ...tag, name: value } : tag)))
   }
 
@@ -49,7 +48,7 @@ const FormTagEdit: React.FC<Props> = ({ tags: tags_, canEdit, events }) => {
     events.onUpdateTags(tags, () => setSubmitting(false))
   }
 
-  function onToggleDeleteTag(tagId: number) {
+  function onToggleDeleteTag(tagId: string) {
     setTags(
       tags.map((tag) =>
         tag.id === tagId ? { ...tag, deleted: !tag.deleted } : tag

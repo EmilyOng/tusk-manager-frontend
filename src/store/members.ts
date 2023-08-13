@@ -15,7 +15,7 @@ const initialState: MembersState = {
 
 export const getMembers = createAsyncThunk(
   'Members/getMembers',
-  async (boardId: number, thunkAPI) => {
+  async (boardId: string, thunkAPI) => {
     const api = new BoardAPI()
     return api.getMemberProfiles({ boardId }).then((res) => {
       if (res.error) {

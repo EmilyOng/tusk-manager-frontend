@@ -45,7 +45,7 @@ const TagsSelect: React.FC<Props> = ({ tags, events }) => {
     setActive(!active)
   }
 
-  function onSelect(tagId: number) {
+  function onSelect(tagId: string) {
     setSelectableTags(
       selectableTags.map((tag) => {
         if (tag.id === tagId) {

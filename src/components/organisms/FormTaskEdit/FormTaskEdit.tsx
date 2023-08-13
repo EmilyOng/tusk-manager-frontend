@@ -11,11 +11,11 @@ import TextArea from 'components/molecules/TextArea'
 import './FormTaskEdit.scoped.css'
 
 export type Form = {
-  id: number
+  id: string
   name: string
   description: string
   dueAt?: Date
-  stateId: number
+  stateId: string
   tags: TagPrimitive[]
 }
 
@@ -134,7 +134,7 @@ const FormTaskEdit: React.FC<Props> = ({ task, states, tags, events }) => {
           items={stateItems}
           events={{
             onSelect: (key) =>
-              setForm({ ...form, stateId: parseInt(key as string) })
+              setForm({ ...form, stateId: key as string })
           }}
         />
       </div>

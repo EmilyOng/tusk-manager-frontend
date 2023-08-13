@@ -13,7 +13,7 @@ import FormMembersUpdate, {
 export type ShareForm = ShareForm_
 
 type Props = {
-  boardId: number
+  boardId: string
   members: MemberProfile[]
   events: {
     onShare: (form: ShareForm, cb: () => void) => any

@@ -7,7 +7,7 @@ import {
   Task
 } from 'generated/models'
 
-export function useBoard(boardId: number | null) {
+export function useBoard(boardId: string | null) {
   const [loading, setLoading] = useState(false)
 
   const api = new BoardAPI()
@@ -44,7 +44,7 @@ export function useBoard(boardId: number | null) {
   }
 }
 
-export function useBoardStates(boardId: number | null) {
+export function useBoardStates(boardId: string | null) {
   const [loading, setLoading] = useState(false)
 
   const api = new BoardAPI()
@@ -82,7 +82,7 @@ export function useBoardStates(boardId: number | null) {
   }
 }
 
-export function useBoardTags(boardId: number | null) {
+export function useBoardTags(boardId: string | null) {
   const [loading, setLoading] = useState(false)
 
   const api = new BoardAPI()
@@ -125,7 +125,7 @@ export function useBoardTags(boardId: number | null) {
   }
 }
 
-export function useBoardTasks(boardId: number | null) {
+export function useBoardTasks(boardId: string | null) {
   const [loading, setLoading] = useState(false)
 
   const api = new BoardAPI()

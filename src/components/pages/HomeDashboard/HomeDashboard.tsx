@@ -95,7 +95,7 @@ function HomeDashboard() {
     setFilteredBoards(matches)
   }
 
-  function selectBoard(boardId: number) {
+  function selectBoard(boardId: string) {
     dispatch(setCurrentBoardId(boardId))
     navigate(`/${boardId}`)
   }

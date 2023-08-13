@@ -14,7 +14,7 @@ export type Form = {
   name: string
   description: string
   dueAt?: Date
-  stateId: number | null
+  stateId: string | null
   tags: TagPrimitive[]
 }
 
@@ -134,7 +134,7 @@ const FormTaskCreate: React.FC<Props> = ({ state, states, tags, events }) => {
           items={stateItems}
           events={{
             onSelect: (key) =>
-              setForm({ ...form, stateId: parseInt(key as string) })
+              setForm({ ...form, stateId: key as string })
           }}
         />
       </div>

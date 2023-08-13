@@ -8,7 +8,7 @@ import InputField from '../InputField'
 import './FormBoard.scoped.css'
 
 export type Form = {
-  id?: number
+  id?: string
   name: string
   color: Color
 }
