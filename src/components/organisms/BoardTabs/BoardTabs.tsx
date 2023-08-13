@@ -78,7 +78,7 @@ const BoardTabs: React.FC = () => {
       return
     }
     // Redirect to the correct tab when boards are loaded
-    const boardId = location.pathname.replace('/', '')
+    const boardId = location.pathname.split('/')[1]
     if (!currentBoardId) {
       if (boardId) {
         dispatch(setCurrentBoardId(boardId))
@@ -236,10 +236,6 @@ const BoardTabs: React.FC = () => {
 
   function logout() {
     const auth = new AuthAPI()
-    useNotification({
-      type: NotificationType.Info,
-      message: 'Logging you out'
-    })
     auth
       .logout()
       .then((res) => {
