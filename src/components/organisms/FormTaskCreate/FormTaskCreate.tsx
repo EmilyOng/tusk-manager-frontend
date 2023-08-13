@@ -133,8 +133,7 @@ const FormTaskCreate: React.FC<Props> = ({ state, states, tags, events }) => {
         <DropdownSelect
           items={stateItems}
           events={{
-            onSelect: (key) =>
-              setForm({ ...form, stateId: key as string })
+            onSelect: (key) => setForm({ ...form, stateId: key as string })
           }}
         />
       </div>

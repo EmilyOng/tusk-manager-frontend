@@ -9,7 +9,7 @@ export enum NotificationType {
 
 export function useNotification({
   type,
-  message = 'An unknown error has occurred'
+  message
 }: {
   type: NotificationType
   message?: string

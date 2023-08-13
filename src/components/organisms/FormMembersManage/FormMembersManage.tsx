@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { MemberFullView } from 'generated/views'
 import { Role } from 'generated/types'
+import { MemberFullView } from 'generated/views'
 import { selectMe } from 'store/me'
 import FormMembersShare, {
   Form as ShareForm_

@@ -133,8 +133,7 @@ const FormTaskEdit: React.FC<Props> = ({ task, states, tags, events }) => {
           initial={form.stateId.toString()}
           items={stateItems}
           events={{
-            onSelect: (key) =>
-              setForm({ ...form, stateId: key as string })
+            onSelect: (key) => setForm({ ...form, stateId: key as string })
           }}
         />
       </div>

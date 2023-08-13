@@ -17,7 +17,8 @@ export const getMembers = createAsyncThunk(
   'Members/getMembers',
   async (boardId: string, thunkAPI) => {
     const api = new BoardAPI()
-    return api.getMemberProfiles({ boardId })
+    return api
+      .getMemberProfiles({ boardId })
       .then((res) => res)
       .catch((e) => {
         return thunkAPI.rejectWithValue(e.message)

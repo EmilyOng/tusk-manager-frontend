@@ -15,7 +15,8 @@ const initialState: MeState = {
 
 export const getMe = createAsyncThunk('Me/getMe', async (_, thunkAPI) => {
   const api = new AuthAPI()
-  return api.getAuthUser()
+  return api
+    .getAuthUser()
     .then((res) => res)
     .catch((e) => {
       return thunkAPI.rejectWithValue(e.message)

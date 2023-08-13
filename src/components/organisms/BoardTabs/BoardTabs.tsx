@@ -152,20 +152,22 @@ const BoardTabs: React.FC = () => {
     sharing: ShareForm,
     cb: (newMember?: MemberFullView) => void
   ) {
-    memberAPI.createMember(sharing).then((res) => {
-      useNotification({
-        type: NotificationType.Success,
-        message: res.message
+    memberAPI
+      .createMember(sharing)
+      .then((res) => {
+        useNotification({
+          type: NotificationType.Success,
+          message: res.message
+        })
+        cb(res.data)
       })
-      cb(res.data)
-    })
-    .catch((e) => {
-      cb()
-      useNotification({
-        type: NotificationType.Error,
-        message: e.message
+      .catch((e) => {
+        cb()
+        useNotification({
+          type: NotificationType.Error,
+          message: e.message
+        })
       })
-    })
   }
 
   function updateSharings(
@@ -181,32 +183,33 @@ const BoardTabs: React.FC = () => {
               role: member.role
             })
       )
-    ).then(() => {
-      cb(
-        members.reduce((acc, member) => {
-          if (member.deleted) {
+    )
+      .then(() => {
+        cb(
+          members.reduce((acc, member) => {
+            if (member.deleted) {
+              return acc
+            }
+            acc.push({
+              id: member.id,
+              role: member.role,
+              user: member.user
+            })
             return acc
-          }
-          acc.push({
-            id: member.id,
-            role: member.role,
-            user: member.user
-          })
-          return acc
-        }, [] as MemberFullView[])
-      )
-      useNotification({
-        type: NotificationType.Success,
-        message: "Successfully updated sharings for the board!"
+          }, [] as MemberFullView[])
+        )
+        useNotification({
+          type: NotificationType.Success,
+          message: 'Successfully updated sharings for the board!'
+        })
       })
-    })
-    .catch((e) => {
-      cb()
-      useNotification({
-        type: NotificationType.Error,
-        message: e.message
+      .catch((e) => {
+        cb()
+        useNotification({
+          type: NotificationType.Error,
+          message: e.message
+        })
       })
-    })
   }
 
   function deleteBoard(boardId: string, cb: () => void) {
@@ -237,22 +240,24 @@ const BoardTabs: React.FC = () => {
       type: NotificationType.Info,
       message: 'Logging you out'
     })
-    auth.logout().then((res) => {
-      navigate('/')
-      dispatch(resetMe())
-      dispatch(resetBoards())
-      dispatch(resetMembers())
-      useNotification({
-        type: NotificationType.Info,
-        message: res.message
+    auth
+      .logout()
+      .then((res) => {
+        navigate('/')
+        dispatch(resetMe())
+        dispatch(resetBoards())
+        dispatch(resetMembers())
+        useNotification({
+          type: NotificationType.Info,
+          message: res.message
+        })
       })
-    })
-    .catch((e) => {
-      useNotification({
-        type: NotificationType.Error,
-        message: e.message
+      .catch((e) => {
+        useNotification({
+          type: NotificationType.Error,
+          message: e.message
+        })
       })
-    })
   }
 
   const loading = useMemo(() => boardsLoading, [boardsLoading])

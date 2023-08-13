@@ -18,7 +18,8 @@ export const getBoards = createAsyncThunk(
   'Boards/getBoards',
   async (_, thunkAPI) => {
     const api = new BoardAPI()
-    return api.getBoards()
+    return api
+      .getBoards()
       .then((res) => res)
       .catch((e) => {
         return thunkAPI.rejectWithValue(e.message)
