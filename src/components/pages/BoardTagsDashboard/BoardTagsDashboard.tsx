@@ -2,7 +2,7 @@ import { TagAPI } from 'api/tag'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { TagPrimitive } from 'generated/models'
+import { TagMinimalView } from 'generated/views'
 import { selectBoards } from 'store/boards'
 import { selectMeMember } from 'store/members'
 import { canEdit } from 'utils/role'
@@ -36,16 +36,7 @@ function BoardTagsDashboard() {
           : tagsAPI.editTag({ ...tag, boardId: boardId! })
       )
     )
-      .then((results) => {
-        const success = results.every((result) => !result.error)
-        if (!success) {
-          useNotification({
-            type: NotificationType.Error,
-            message: 'Something went wrong. Refetching tags...'
-          })
-          refetch()
-          return
-        }
+      .then(() => {
         updateTags(
           tags.reduce((acc, tag) => {
             if (tag.deleted) {
@@ -58,11 +49,18 @@ function BoardTagsDashboard() {
               boardId: tag.boardId
             })
             return acc
-          }, [] as TagPrimitive[])
+          }, [] as TagMinimalView[])
         )
         useNotification({
           type: NotificationType.Success,
-          message: 'Tags have been updated successfully'
+          message: 'Successfully updated the tags!'
+        })
+      })
+      .catch((e) => {
+        refetch()
+        useNotification({
+          type: NotificationType.Error,
+          message: e.message
         })
       })
       .finally(() => {
@@ -74,13 +72,16 @@ function BoardTagsDashboard() {
     tagsAPI
       .createTag({ ...form, boardId: boardId! })
       .then((res) => {
-        if (res.error) {
-          return
-        }
         updateTags([...tags, res.data])
         useNotification({
           type: NotificationType.Success,
-          message: 'Tag has been createed successfully'
+          message: res.message
+        })
+      })
+      .catch((e) => {
+        useNotification({
+          type: NotificationType.Error,
+          message: e.message
         })
       })
       .finally(() => cb())

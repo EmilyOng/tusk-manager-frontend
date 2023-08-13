@@ -5,7 +5,7 @@ import {
   DeleteStateResponse,
   UpdateStatePayload,
   UpdateStateResponse
-} from 'generated/models'
+} from 'generated/views'
 import { RequestAPI } from './request'
 
 // All endpoints under the '/states' prefix

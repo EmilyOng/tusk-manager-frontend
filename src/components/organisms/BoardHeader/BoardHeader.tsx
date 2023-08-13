@@ -8,7 +8,7 @@ import clsx from 'clsx'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { BoardPrimitive, MemberProfile } from 'generated/models'
+import { BoardMinimalView, MemberFullView } from 'generated/views'
 import {
   getMembers,
   selectMeMember,
@@ -34,20 +34,20 @@ type Props = {
     onDeleteBoard: (boardId: string, cb: () => void) => any
     onShareBoard: (
       sharing: ShareForm,
-      cb: (newMember?: MemberProfile) => void
+      cb: (newMember?: MemberFullView) => void
     ) => any
     onUpdateSharings: (
       members: EditableMemberProfile[],
-      cb: (updatedMembers?: MemberProfile[]) => void
+      cb: (updatedMembers?: MemberFullView[]) => void
     ) => any
   }
 }
 
 function useBoardEditModal() {
   const [visible, setVisible] = useState(false)
-  const [board, setBoard] = useState<BoardPrimitive>()
+  const [board, setBoard] = useState<BoardMinimalView>()
 
-  function openCard(board: BoardPrimitive) {
+  function openCard(board: BoardMinimalView) {
     setBoard(board)
     setVisible(true)
   }
@@ -65,9 +65,9 @@ function useBoardEditModal() {
 
 function useBoardDeleteModal() {
   const [visible, setVisible] = useState(false)
-  const [board, setBoard] = useState<BoardPrimitive>()
+  const [board, setBoard] = useState<BoardMinimalView>()
 
-  function openCard(board: BoardPrimitive) {
+  function openCard(board: BoardMinimalView) {
     setBoard(board)
     setVisible(true)
   }
@@ -264,11 +264,11 @@ const BoardHeader: React.FC<Props> = ({ boardId, events }) => {
                           <div key="" className="member-info">
                             <span className="member-role">{member.role}</span>
                             <span>
-                              {member.profile.name} ({member.profile.email})
+                              {member.user.name} ({member.user.email})
                             </span>
                           </div>
                         ]}
-                        trigger={<Avatar name={member.profile.name} />}
+                        trigger={<Avatar name={member.user.name} />}
                       />
                     </div>
                   )

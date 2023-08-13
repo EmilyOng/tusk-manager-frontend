@@ -1,11 +1,11 @@
 import clsx from 'clsx'
 import React from 'react'
-import { BoardPrimitive } from 'generated/models'
+import { BoardMinimalView } from 'generated/views'
 import { getSelectorHash } from 'utils/selectorHash'
 import './CardBoard.scoped.css'
 
 type Props = {
-  board: BoardPrimitive
+  board: BoardMinimalView
   className?: string
 }
 

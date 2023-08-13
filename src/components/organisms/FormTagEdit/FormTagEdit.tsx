@@ -1,7 +1,7 @@
 import { faEdit, faRedo, faTimes } from '@fortawesome/free-solid-svg-icons'
 import clsx from 'clsx'
 import React, { useEffect, useState } from 'react'
-import { TagPrimitive } from 'generated/models'
+import { TagMinimalView } from 'generated/views'
 import { Color } from 'generated/types'
 import Button from 'components/atoms/Button'
 import DropdownColor from 'components/molecules/DropdownColor'
@@ -9,12 +9,12 @@ import InputField from 'components/molecules/InputField'
 import SquareColor from 'components/molecules/SquareColor'
 import './FormTagEdit.scoped.css'
 
-export interface DeletableTag extends TagPrimitive {
+export interface DeletableTag extends TagMinimalView {
   deleted: boolean
 }
 
 type Props = {
-  tags: TagPrimitive[]
+  tags: TagMinimalView[]
   canEdit: boolean
   events: {
     onCancel: () => void

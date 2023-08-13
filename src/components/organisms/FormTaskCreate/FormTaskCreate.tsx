@@ -1,7 +1,7 @@
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import clsx from 'clsx'
 import React, { useEffect, useState } from 'react'
-import { StatePrimitive, TagPrimitive } from 'generated/models'
+import { StateMinimalView, TagMinimalView } from 'generated/views'
 import Button from 'components/atoms/Button'
 import DatePicker from 'components/molecules/DatePicker'
 import DropdownSelect from 'components/molecules/DropdownSelect'
@@ -15,17 +15,17 @@ export type Form = {
   description: string
   dueAt?: Date
   stateId: string | null
-  tags: TagPrimitive[]
+  tags: TagMinimalView[]
 }
 
 type Props = {
-  state: StatePrimitive
-  tags: TagPrimitive[]
-  states: StatePrimitive[]
+  state: StateMinimalView
+  tags: TagMinimalView[]
+  states: StateMinimalView[]
   events: {
     onSubmit: (form: Form, cb: () => void) => any
     onCancel: () => any
-    onCreateTag: (form: CreateTagForm, cb: (tag: TagPrimitive) => void) => any
+    onCreateTag: (form: CreateTagForm, cb: (tag: TagMinimalView) => void) => any
   }
 }
 
@@ -74,7 +74,7 @@ const FormTaskCreate: React.FC<Props> = ({ state, states, tags, events }) => {
     })
   }
 
-  function updateTags(tag: TagPrimitive) {
+  function updateTags(tag: TagMinimalView) {
     const existing = form.tags.find((t) => t.id === tag.id)
     if (existing) {
       setForm({
@@ -123,7 +123,7 @@ const FormTaskCreate: React.FC<Props> = ({ state, states, tags, events }) => {
             return { ...t, selected: false }
           })}
           events={{
-            onSelect: (tag: TagPrimitive) => updateTags(tag),
+            onSelect: (tag: TagMinimalView) => updateTags(tag),
             onCreateTag: events.onCreateTag
           }}
         />

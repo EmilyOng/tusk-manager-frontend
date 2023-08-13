@@ -1,11 +1,11 @@
 import React from 'react'
-import { BoardPrimitive } from 'generated/models'
+import { BoardMinimalView } from 'generated/views'
 import FormBoard, { Form as Form_ } from 'components/molecules/FormBoard'
 
 export type Form = Form_
 
 type Props = {
-  board: BoardPrimitive
+  board: BoardMinimalView
   events: {
     onSubmit: (form: Form, cb: () => void) => any
     onCancel: () => any

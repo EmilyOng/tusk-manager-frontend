@@ -4,7 +4,7 @@ import clsx from 'clsx'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { BoardPrimitive } from 'generated/models'
+import { BoardMinimalView } from 'generated/views'
 import { selectBoards, setCurrentBoardId, updateBoards } from 'store/boards'
 import { selectMe } from 'store/me'
 import { NotificationType, useNotification } from 'composables/notification'
@@ -42,7 +42,7 @@ function HomeDashboard() {
     () => !boardsLoading && boards.length === 0,
     [boards, boardsLoading]
   )
-  const [filteredBoards, setFilteredBoards] = useState<BoardPrimitive[]>([])
+  const [filteredBoards, setFilteredBoards] = useState<BoardMinimalView[]>([])
   useEffect(() => {
     setFilteredBoards(boards)
     return () => {
@@ -64,9 +64,6 @@ function HomeDashboard() {
         userId: me!.id
       })
       .then((res) => {
-        if (res.error) {
-          return
-        }
         dispatch(updateBoards([...boards, res.data]))
         dispatch(setCurrentBoardId(res.data.id))
         // Navigate to the new board
@@ -74,7 +71,13 @@ function HomeDashboard() {
         closeBoardCreateCard()
         useNotification({
           type: NotificationType.Success,
-          message: 'Board has been created successfully'
+          message: res.message
+        })
+      })
+      .catch((e) => {
+        useNotification({
+          type: NotificationType.Error,
+          message: e.message
         })
       })
       .finally(() => cb())

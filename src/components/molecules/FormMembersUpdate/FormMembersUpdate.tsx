@@ -1,7 +1,7 @@
 import { faRedo, faTimes } from '@fortawesome/free-solid-svg-icons'
 import clsx from 'clsx'
 import React, { useEffect, useMemo, useState } from 'react'
-import { AuthUser, MemberProfile } from 'generated/models'
+import { AuthUserView, MemberFullView } from 'generated/views'
 import { Role } from 'generated/types'
 import { Roles } from 'utils/role'
 import Button from 'components/atoms/Button'
@@ -9,14 +9,14 @@ import Avatar from 'components/molecules/Avatar'
 import DropdownSelect from 'components/molecules/DropdownSelect'
 import './FormMembersUpdate.scoped.css'
 
-export interface EditableMemberProfile extends MemberProfile {
+export interface EditableMemberProfile extends MemberFullView {
   deleted: boolean
   editable: boolean // Whether the member profile can be edited by the current user
 }
 
 type Props = {
-  members: MemberProfile[]
-  me: AuthUser | null
+  members: MemberFullView[]
+  me: AuthUserView | null
   events: {
     onSubmit: (members: EditableMemberProfile[], cb: () => void) => any
   }
@@ -29,7 +29,7 @@ const FormMembersUpdate: React.FC<Props> = ({
 }) => {
   const [submitting, setSubmitting] = useState(false)
   const meMember = useMemo(
-    () => members_.find((m) => m.profile.id === me?.id),
+    () => members_.find((m) => m.user.id === me?.id),
     [members_]
   )
   const [members, setMembers] = useState<EditableMemberProfile[]>([])
@@ -123,9 +123,9 @@ const FormMembersUpdate: React.FC<Props> = ({
             })}
           >
             <div className="member-info">
-              <Avatar name={member.profile.name} />
+              <Avatar name={member.user.name} />
               <span>
-                {member.profile.name} ({member.profile.email})
+                {member.user.name} ({member.user.email})
               </span>
             </div>
             {member.editable ? (

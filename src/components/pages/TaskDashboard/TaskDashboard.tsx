@@ -4,7 +4,7 @@ import { TaskAPI } from 'api/task'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
-import { StatePrimitive, TagPrimitive, Task } from 'generated/models'
+import { StateMinimalView, TagMinimalView, Task } from 'generated/views'
 import { selectMe } from 'store/me'
 import { selectMeMember } from 'store/members'
 import { canEdit } from 'utils/role'
@@ -55,13 +55,16 @@ function TaskDashboard() {
         userId: me!.id
       })
       .then((res) => {
-        if (res.error) {
-          return
-        }
         updateTasks([...tasks, res.data])
         useNotification({
           type: NotificationType.Success,
-          message: 'Task has been created successfully'
+          message: res.message
+        })
+      })
+      .catch((e) => {
+        useNotification({
+          type: NotificationType.Error,
+          message: e.message
         })
       })
       .finally(() => cb())
@@ -71,13 +74,16 @@ function TaskDashboard() {
     taskAPI
       .deleteTask({ id: taskId })
       .then((res) => {
-        if (res.error) {
-          return
-        }
         updateTasks(tasks.filter((task) => task.id !== taskId))
         useNotification({
           type: NotificationType.Success,
-          message: 'Task has been deleted successfully'
+          message: res.message
+        })
+      })
+      .catch((e) => {
+        useNotification({
+          type: NotificationType.Error,
+          message: e.message
         })
       })
       .finally(() => cb())
@@ -87,26 +93,40 @@ function TaskDashboard() {
     taskAPI
       .editTask({ ...form, boardId: boardId!, userId: me!.id })
       .then((res) => {
-        if (res.error) {
-          return
-        }
         updateTasks(tasks.map((t) => (t.id === res.data.id ? res.data : t)))
+        useNotification({
+          type: NotificationType.Success,
+          message: res.message
+        })
+      })
+      .catch((e) => {
+        useNotification({
+          type: NotificationType.Error,
+          message: e.message
+        })
       })
       .finally(() => cb())
   }
 
-  function createTag(form: CreateTagForm, cb: (tag: TagPrimitive) => void) {
+  function createTag(form: CreateTagForm, cb: (tag: TagMinimalView) => void) {
     tagAPI
       .createTag({
         ...form,
         boardId: boardId!
       })
       .then((res) => {
-        if (res.error) {
-          return
-        }
         updateTags([...tags, res.data])
+        useNotification({
+          type: NotificationType.Success,
+          message: res.message
+        })
         cb(res.data)
+      })
+      .catch((e) => {
+        useNotification({
+          type: NotificationType.Error,
+          message: e.message
+        })
       })
   }
 
@@ -118,10 +138,17 @@ function TaskDashboard() {
         currentPosition: numStates
       })
       .then((res) => {
-        if (res.error) {
-          return
-        }
         updateStates([...states, res.data])
+        useNotification({
+          type: NotificationType.Success,
+          message: res.message
+        })
+      })
+      .catch((e) => {
+        useNotification({
+          type: NotificationType.Error,
+          message: e.message
+        })
       })
       .finally(() => cb())
   }
@@ -139,7 +166,7 @@ function TaskDashboard() {
 
     function onDropTask(
       e: React.DragEvent<HTMLDivElement>,
-      state: StatePrimitive
+      state: StateMinimalView
     ) {
       e.preventDefault()
       if (!task.current) {
@@ -162,17 +189,20 @@ function TaskDashboard() {
           userId: me!.id
         })
         .then((res) => {
-          if (res.error) {
-            // Rollback
-            updateTasks(
-              tasks.map((t) => (t.id === task.current?.id ? initialTask : t))
-            )
-            useNotification({
-              type: NotificationType.Error,
-              message: "Something went wrong in updating the task's state."
-            })
-            return
-          }
+          useNotification({
+            type: NotificationType.Success,
+            message: res.message
+          })
+        })
+        .catch((e) => {
+          // Rollback
+          updateTasks(
+            tasks.map((t) => (t.id === task.current?.id ? initialTask : t))
+          )
+          useNotification({
+            type: NotificationType.Error,
+            message: e.message
+          })
         })
         .finally(() => (task.current = null))
     }
@@ -184,16 +214,23 @@ function TaskDashboard() {
     }
   }
 
-  function editState(newState: StatePrimitive, cb: () => void) {
+  function editState(newState: StateMinimalView, cb: () => void) {
     stateAPI
       .editState({ ...newState, boardId: boardId! })
       .then((res) => {
-        if (res.error) {
-          return
-        }
         updateStates(
           states.map((state) => (state.id === res.data.id ? res.data : state))
         )
+        useNotification({
+          type: NotificationType.Success,
+          message: res.message
+        })
+      })
+      .catch((e) => {
+        useNotification({
+          type: NotificationType.Error,
+          message: e.message
+        })
       })
       .finally(() => cb())
   }
@@ -202,19 +239,22 @@ function TaskDashboard() {
     stateAPI
       .deleteState({ id: stateId })
       .then((res) => {
-        if (res.error) {
-          return
-        }
         updateStates(states.filter((state) => state.id !== stateId))
         useNotification({
           type: NotificationType.Success,
-          message: 'State has been deleted successfully'
+          message: res.message
+        })
+      })
+      .catch((e) => {
+        useNotification({
+          type: NotificationType.Error,
+          message: e.message
         })
       })
       .finally(() => cb())
   }
 
-  function onMoveStateLeft(state: StatePrimitive, cb: () => void) {
+  function onMoveStateLeft(state: StateMinimalView, cb: () => void) {
     for (let i = 0; i < states.length; i++) {
       const s = states[i]
       if (s.id === state.id) {
@@ -242,7 +282,7 @@ function TaskDashboard() {
     }
   }
 
-  function onMoveStateRight(state: StatePrimitive, cb: () => void) {
+  function onMoveStateRight(state: StateMinimalView, cb: () => void) {
     for (let i = 0; i < states.length; i++) {
       const s = states[i]
       if (s.id === state.id) {

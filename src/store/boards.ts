@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { BoardAPI } from 'api/board'
-import { BoardPrimitive } from 'generated/models'
+import { BoardMinimalView } from 'generated/views'
 
 type BoardsState = {
-  boards: BoardPrimitive[]
+  boards: BoardMinimalView[]
   loading: boolean
   currentBoardId: string | null
 }
@@ -18,12 +18,11 @@ export const getBoards = createAsyncThunk(
   'Boards/getBoards',
   async (_, thunkAPI) => {
     const api = new BoardAPI()
-    return api.getBoards().then((res) => {
-      if (res.error) {
-        return thunkAPI.rejectWithValue(res.error)
-      }
-      return res
-    })
+    return api.getBoards()
+      .then((res) => res)
+      .catch((e) => {
+        return thunkAPI.rejectWithValue(e.message)
+      })
   }
 )
 
@@ -31,10 +30,10 @@ export const BoardsSlice = createSlice({
   name: 'Boards',
   initialState,
   reducers: {
-    setBoards(state, action: { payload: BoardPrimitive[] }) {
+    setBoards(state, action: { payload: BoardMinimalView[] }) {
       state.boards = action.payload
     },
-    updateBoards(state, action: { payload: BoardPrimitive[] }) {
+    updateBoards(state, action: { payload: BoardMinimalView[] }) {
       state.boards = action.payload
     },
     setCurrentBoardId(state, action: { payload: string | null }) {

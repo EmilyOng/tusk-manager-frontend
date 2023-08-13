@@ -1,19 +1,20 @@
 import { BoardAPI } from 'api/board'
 import { useEffect, useState } from 'react'
 import {
-  BoardPrimitive,
-  StatePrimitive,
-  TagPrimitive,
+  BoardMinimalView,
+  StateMinimalView,
+  TagMinimalView,
   Task
-} from 'generated/models'
+} from 'generated/views'
+import { NotificationType, useNotification } from './notification'
 
 export function useBoard(boardId: string | null) {
   const [loading, setLoading] = useState(false)
 
   const api = new BoardAPI()
-  const [board, setBoard] = useState<BoardPrimitive>()
+  const [board, setBoard] = useState<BoardMinimalView>()
 
-  function updateBoard(board: BoardPrimitive) {
+  function updateBoard(board: BoardMinimalView) {
     setBoard(board)
   }
 
@@ -24,10 +25,12 @@ export function useBoard(boardId: string | null) {
     setLoading(true)
     api
       .getBoard({ id: boardId })
-      .then((res) => {
-        if (!res.error) {
-          setBoard(res.data)
-        }
+      .then((res) => setBoard(res.data))
+      .catch((e) => {
+        useNotification({
+          type: NotificationType.Error,
+          message: e.message
+        })
       })
       .finally(() => setLoading(false))
     return () => {
@@ -48,9 +51,9 @@ export function useBoardStates(boardId: string | null) {
   const [loading, setLoading] = useState(false)
 
   const api = new BoardAPI()
-  const [states, setStates] = useState<StatePrimitive[]>([])
+  const [states, setStates] = useState<StateMinimalView[]>([])
 
-  function updateStates(states: StatePrimitive[]) {
+  function updateStates(states: StateMinimalView[]) {
     setStates(states)
   }
 
@@ -62,10 +65,12 @@ export function useBoardStates(boardId: string | null) {
     setLoading(true)
     api
       .getStates({ boardId })
-      .then((res) => {
-        if (!res.error) {
-          setStates(res.data)
-        }
+      .then((res) => setStates(res.data))
+      .catch((e) => {
+        useNotification({
+          type: NotificationType.Error,
+          message: e.message
+        })
       })
       .finally(() => setLoading(false))
     return () => {
@@ -86,9 +91,9 @@ export function useBoardTags(boardId: string | null) {
   const [loading, setLoading] = useState(false)
 
   const api = new BoardAPI()
-  const [tags, setTags] = useState<TagPrimitive[]>([])
+  const [tags, setTags] = useState<TagMinimalView[]>([])
 
-  function updateTags(tags: TagPrimitive[]) {
+  function updateTags(tags: TagMinimalView[]) {
     setTags(tags)
   }
 
@@ -100,11 +105,7 @@ export function useBoardTags(boardId: string | null) {
     setLoading(true)
     api
       .getTags({ boardId })
-      .then((res) => {
-        if (!res.error) {
-          setTags(res.data)
-        }
-      })
+      .then((res) => setTags(res.data))
       .finally(() => setLoading(false))
   }
 
@@ -143,10 +144,12 @@ export function useBoardTasks(boardId: string | null) {
     setLoading(true)
     api
       .getTasks({ boardId })
-      .then((res) => {
-        if (!res.error) {
-          setTasks(res.data)
-        }
+      .then((res) => setTasks(res.data))
+      .catch((e) => {
+        useNotification({
+          type: NotificationType.Error,
+          message: e.message
+        })
       })
       .finally(() => setLoading(false))
     return () => {

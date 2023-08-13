@@ -1,7 +1,7 @@
 import { faAngleDown, faTimes } from '@fortawesome/free-solid-svg-icons'
 import clsx from 'clsx'
 import React, { createRef, useEffect, useState } from 'react'
-import { TagPrimitive } from 'generated/models'
+import { TagMinimalView } from 'generated/views'
 import { Color } from 'generated/types'
 import { Colors } from 'utils/color'
 import Button from 'components/atoms/Button'
@@ -19,12 +19,12 @@ export interface CreateTagForm {
 type Props = {
   tags: SelectableTag[]
   events: {
-    onSelect: (tag: TagPrimitive) => any
-    onCreateTag: (form: CreateTagForm, cb: (tag: TagPrimitive) => void) => any
+    onSelect: (tag: TagMinimalView) => any
+    onCreateTag: (form: CreateTagForm, cb: (tag: TagMinimalView) => void) => any
   }
 }
 
-export interface SelectableTag extends TagPrimitive {
+export interface SelectableTag extends TagMinimalView {
   selected: boolean
 }
 
@@ -65,7 +65,7 @@ const TagsSelect: React.FC<Props> = ({ tags, events }) => {
         name: tagInput,
         color: Colors[tagInput.length % Colors.length]
       },
-      (tag: TagPrimitive) => {
+      (tag: TagMinimalView) => {
         setIsCreatingTag(false)
         setTagInput('') // Reset search input
         setSelectableTags([...selectableTags, { ...tag, selected: true }])
@@ -79,7 +79,7 @@ const TagsSelect: React.FC<Props> = ({ tags, events }) => {
     setActive(true) // Make sure the dropdown is active
   }
 
-  function isMatchTagInput(tag: TagPrimitive) {
+  function isMatchTagInput(tag: TagMinimalView) {
     return tag.name.toLowerCase().includes(tagInput.toLowerCase())
   }
 

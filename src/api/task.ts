@@ -5,7 +5,7 @@ import {
   DeleteTaskResponse,
   UpdateTaskPayload,
   UpdateTaskResponse
-} from 'generated/models'
+} from 'generated/views'
 import { RequestAPI } from './request'
 
 // All endpoints under the '/tasks' prefix

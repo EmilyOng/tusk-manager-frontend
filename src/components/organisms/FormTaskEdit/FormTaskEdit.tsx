@@ -1,7 +1,7 @@
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import clsx from 'clsx'
 import React, { useEffect, useState } from 'react'
-import { StatePrimitive, TagPrimitive, Task } from 'generated/models'
+import { StateMinimalView, TagMinimalView, Task } from 'generated/views'
 import Button from 'components/atoms/Button'
 import DatePicker from 'components/molecules/DatePicker'
 import DropdownSelect from 'components/molecules/DropdownSelect'
@@ -16,17 +16,17 @@ export type Form = {
   description: string
   dueAt?: Date
   stateId: string
-  tags: TagPrimitive[]
+  tags: TagMinimalView[]
 }
 
 type Props = {
   task: Task
-  tags: TagPrimitive[]
-  states: StatePrimitive[]
+  tags: TagMinimalView[]
+  states: StateMinimalView[]
   events: {
     onSubmit: (form: Form, cb: () => void) => any
     onCancel: () => any
-    onCreateTag: (form: CreateTagForm, cb: (tag: TagPrimitive) => void) => any
+    onCreateTag: (form: CreateTagForm, cb: (tag: TagMinimalView) => void) => any
   }
 }
 
@@ -64,7 +64,7 @@ const FormTaskEdit: React.FC<Props> = ({ task, states, tags, events }) => {
     })
   }
 
-  function updateTags(tag: TagPrimitive) {
+  function updateTags(tag: TagMinimalView) {
     const existing = form.tags.find((t) => t.id === tag.id)
     if (existing) {
       setForm({
@@ -81,9 +81,9 @@ const FormTaskEdit: React.FC<Props> = ({ task, states, tags, events }) => {
     }
   }
 
-  function createTag(form: CreateTagForm, cb: (tag: TagPrimitive) => void) {
+  function createTag(form: CreateTagForm, cb: (tag: TagMinimalView) => void) {
     setSubmitting(true)
-    events.onCreateTag(form, (tag: TagPrimitive) => {
+    events.onCreateTag(form, (tag: TagMinimalView) => {
       setSubmitting(false)
       cb(tag)
     })
@@ -122,7 +122,7 @@ const FormTaskEdit: React.FC<Props> = ({ task, states, tags, events }) => {
             return { ...t, selected: form.tags.map((t) => t.id).includes(t.id) }
           })}
           events={{
-            onSelect: (tag: TagPrimitive) => updateTags(tag),
+            onSelect: (tag: TagMinimalView) => updateTags(tag),
             onCreateTag: createTag
           }}
         />

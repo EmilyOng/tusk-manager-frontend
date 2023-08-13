@@ -1,21 +1,4 @@
-import { Response } from 'generated/models'
-import { ErrorCode } from 'generated/types'
 import { getAuthToken } from 'utils/authToken'
-import { NotificationType, useNotification } from 'composables/notification'
-
-export function guardError(res: Response | any) {
-  if (
-    res.error &&
-    (res.error === ErrorCode.ServerError ||
-      res.error === ErrorCode.TypeMismatch)
-  ) {
-    useNotification({
-      type: NotificationType.Error,
-      message: 'Ooops...something went wrong. Please reload the page.'
-    })
-  }
-  return res
-}
 
 enum Method {
   GET = 'get',
@@ -23,6 +6,8 @@ enum Method {
   PUT = 'put',
   DELETE = 'delete'
 }
+
+const okStatus = [200]
 
 export class RequestAPI {
   private url: string
@@ -66,10 +51,11 @@ export class RequestAPI {
       ...(method === Method.GET ? {} : { body: JSON.stringify(body) })
     })
       .then((res) => res.json())
-      .then(guardError)
-      .catch((e) => {
-        // eslint-disable-next-line no-console
-        console.error(e)
+      .then((res) => {
+        if (!okStatus.includes(res.code)) {
+          throw new Error(res.message)
+        }
+        return res
       })
   }
 }

@@ -6,7 +6,7 @@ import {
 import clsx from 'clsx'
 import { format } from 'date-fns'
 import React, { useEffect, useState } from 'react'
-import { Task } from 'generated/models'
+import { Task } from 'generated/views'
 import { DATE_FORMAT } from 'utils/date'
 import Button from 'components/atoms/Button'
 import Icon from 'components/atoms/Icon'

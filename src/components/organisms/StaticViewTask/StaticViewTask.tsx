@@ -1,13 +1,13 @@
 import { format } from 'date-fns'
 import React from 'react'
-import { StatePrimitive, Task } from 'generated/models'
+import { StateMinimalView, Task } from 'generated/views'
 import { DATE_FORMAT } from 'utils/date'
 import TagItem from 'components/atoms/TagItem'
 import './StaticViewTask.scoped.css'
 
 type Props = {
   task: Task
-  states: StatePrimitive[]
+  states: StateMinimalView[]
 }
 
 const StaticViewTask: React.FC<Props> = ({ task, states }) => {

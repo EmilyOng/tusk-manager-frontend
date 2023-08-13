@@ -11,7 +11,7 @@ import clsx from 'clsx'
 import React, { Key, useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { MemberProfile } from 'generated/models'
+import { MemberFullView } from 'generated/views'
 import {
   resetBoards,
   selectBoards,
@@ -107,16 +107,19 @@ const BoardTabs: React.FC = () => {
         userId: me!.id
       })
       .then((res) => {
-        if (res.error) {
-          return
-        }
         dispatch(updateBoards([...boards, res.data]))
         // Navigate to the new board
         selectBoard(res.data.id)
         closeBoardCreateCard()
         useNotification({
           type: NotificationType.Success,
-          message: 'Board has been created successfully'
+          message: res.message
+        })
+      })
+      .catch((e) => {
+        useNotification({
+          type: NotificationType.Error,
+          message: e.message
         })
       })
       .finally(() => cb())
@@ -126,38 +129,48 @@ const BoardTabs: React.FC = () => {
     boardAPI
       .editBoard({ ...form, id: form.id!, userId: me!.id })
       .then((res) => {
-        if (res.error) {
-          return
-        }
         dispatch(
           updateBoards(
             boards.map((board) => (board.id === res.data.id ? res.data : board))
           )
         )
+        useNotification({
+          type: NotificationType.Success,
+          message: res.message
+        })
+      })
+      .catch((e) => {
+        useNotification({
+          type: NotificationType.Error,
+          message: e.message
+        })
       })
       .finally(() => cb())
   }
 
   function shareBoard(
     sharing: ShareForm,
-    cb: (newMember?: MemberProfile) => void
+    cb: (newMember?: MemberFullView) => void
   ) {
     memberAPI.createMember(sharing).then((res) => {
-      if (res.error) {
-        cb()
-        return
-      }
       useNotification({
         type: NotificationType.Success,
-        message: 'Board has been shared with ' + res.data.profile.name
+        message: res.message
       })
       cb(res.data)
+    })
+    .catch((e) => {
+      cb()
+      useNotification({
+        type: NotificationType.Error,
+        message: e.message
+      })
     })
   }
 
   function updateSharings(
     members: EditableMemberProfile[],
-    cb: (updatedMembers?: MemberProfile[]) => void
+    cb: (updatedMembers?: MemberFullView[]) => void
   ) {
     Promise.all(
       members.map((member) =>
@@ -168,12 +181,7 @@ const BoardTabs: React.FC = () => {
               role: member.role
             })
       )
-    ).then((results) => {
-      const success = results.every((result) => !result.error)
-      if (!success) {
-        cb()
-        return
-      }
+    ).then(() => {
       cb(
         members.reduce((acc, member) => {
           if (member.deleted) {
@@ -182,11 +190,22 @@ const BoardTabs: React.FC = () => {
           acc.push({
             id: member.id,
             role: member.role,
-            profile: member.profile
+            user: member.user
           })
           return acc
-        }, [] as MemberProfile[])
+        }, [] as MemberFullView[])
       )
+      useNotification({
+        type: NotificationType.Success,
+        message: "Successfully updated sharings for the board!"
+      })
+    })
+    .catch((e) => {
+      cb()
+      useNotification({
+        type: NotificationType.Error,
+        message: e.message
+      })
     })
   }
 
@@ -194,13 +213,16 @@ const BoardTabs: React.FC = () => {
     boardAPI
       .deleteBoard({ id: boardId })
       .then((res) => {
-        if (res.error) {
-          return
-        }
         dispatch(updateBoards(boards.filter((board) => board.id !== boardId)))
         useNotification({
           type: NotificationType.Success,
-          message: 'Board has been deleted successfully'
+          message: res.message
+        })
+      })
+      .catch((e) => {
+        useNotification({
+          type: NotificationType.Error,
+          message: e.message
         })
       })
       .finally(() => {
@@ -216,16 +238,19 @@ const BoardTabs: React.FC = () => {
       message: 'Logging you out'
     })
     auth.logout().then((res) => {
-      if (res.error) {
-        return
-      }
       navigate('/')
       dispatch(resetMe())
       dispatch(resetBoards())
       dispatch(resetMembers())
       useNotification({
         type: NotificationType.Info,
-        message: 'Goodbye!'
+        message: res.message
+      })
+    })
+    .catch((e) => {
+      useNotification({
+        type: NotificationType.Error,
+        message: e.message
       })
     })
   }

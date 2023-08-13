@@ -16,7 +16,7 @@ import {
   GetUserBoardsResponse,
   UpdateBoardPayload,
   UpdateBoardResponse
-} from 'generated/models'
+} from 'generated/views'
 import { RequestAPI } from './request'
 
 // All endpoints under the '/boards' prefix

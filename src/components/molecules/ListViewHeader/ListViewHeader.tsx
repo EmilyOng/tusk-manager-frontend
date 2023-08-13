@@ -1,16 +1,16 @@
 import { faPen } from '@fortawesome/free-solid-svg-icons'
 import clsx from 'clsx'
 import React, { createRef, useEffect, useState } from 'react'
-import { StatePrimitive } from 'generated/models'
+import { StateMinimalView } from 'generated/views'
 import Button from 'components/atoms/Button'
 import InputField from '../InputField'
 import './ListViewHeader.scoped.css'
 
 type Props = {
   canEdit: boolean
-  state: StatePrimitive
+  state: StateMinimalView
   events: {
-    onEditState: (newState: StatePrimitive, cb: () => void) => void
+    onEditState: (newState: StateMinimalView, cb: () => void) => void
   }
 }
 

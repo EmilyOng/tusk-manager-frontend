@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { AuthAPI } from 'api/auth'
-import { AuthUser } from 'generated/models'
+import { AuthUserView } from 'generated/views'
 import { removeAuthToken, setAuthToken } from 'utils/authToken'
 
 export type MeState = {
-  user: AuthUser | null
+  user: AuthUserView | null
   loading: boolean
 }
 
@@ -15,19 +15,18 @@ const initialState: MeState = {
 
 export const getMe = createAsyncThunk('Me/getMe', async (_, thunkAPI) => {
   const api = new AuthAPI()
-  return api.getAuthUser().then((res) => {
-    if (res.error) {
-      return thunkAPI.rejectWithValue(res.error)
-    }
-    return res
-  })
+  return api.getAuthUser()
+    .then((res) => res)
+    .catch((e) => {
+      return thunkAPI.rejectWithValue(e.message)
+    })
 })
 
 export const MeSlice = createSlice({
   name: 'Me',
   initialState,
   reducers: {
-    setMe(state, action: { payload: AuthUser }) {
+    setMe(state, action: { payload: AuthUserView }) {
       state.user = action.payload
       setAuthToken(action.payload.token)
     },

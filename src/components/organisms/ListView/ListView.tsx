@@ -8,11 +8,11 @@ import clsx from 'clsx'
 import { compareAsc } from 'date-fns'
 import React, { createRef, useEffect, useState } from 'react'
 import {
-  MemberProfile,
-  StatePrimitive,
-  TagPrimitive,
+  MemberFullView,
+  StateMinimalView,
+  TagMinimalView,
   Task
-} from 'generated/models'
+} from 'generated/views'
 import { canEdit } from 'utils/role'
 import Button from 'components/atoms/Button'
 import CardTask from 'components/molecules/CardTask'
@@ -29,30 +29,30 @@ import './ListView.scoped.css'
 
 type Props = {
   tasks: Task[]
-  tags: TagPrimitive[]
-  states: StatePrimitive[]
-  state: StatePrimitive
+  tags: TagMinimalView[]
+  states: StateMinimalView[]
+  state: StateMinimalView
   loading: boolean
   position: {
     current: number
     limit: number
   }
-  meMember: MemberProfile | null
+  meMember: MemberFullView | null
   events: {
     onEditTask: (form: EditTaskForm, cb: () => void) => void
     onCreateTask: (form: CreateTaskForm, cb: () => void) => void
     onDeleteTask: (taskId: string, cb: () => void) => void
     onDragTask: (task: Task) => void
-    onCreateTag: (form: CreateTagForm, cb: (tag: TagPrimitive) => void) => any
+    onCreateTag: (form: CreateTagForm, cb: (tag: TagMinimalView) => void) => any
     onDragOver: (e: React.DragEvent<HTMLDivElement>) => void
     onDropTask: (
       e: React.DragEvent<HTMLDivElement>,
-      state: StatePrimitive
+      state: StateMinimalView
     ) => void
-    onEditState: (newState: StatePrimitive, cb: () => void) => void
+    onEditState: (newState: StateMinimalView, cb: () => void) => void
     onDeleteState: (stateId: string, cb: () => void) => void
-    onMoveStateLeft: (state: StatePrimitive, cb: () => void) => void
-    onMoveStateRight: (state: StatePrimitive, cb: () => void) => void
+    onMoveStateLeft: (state: StateMinimalView, cb: () => void) => void
+    onMoveStateRight: (state: StateMinimalView, cb: () => void) => void
   }
 }
 
@@ -101,9 +101,9 @@ function useTaskEditModal() {
 }
 
 function useStateDeleteModal() {
-  const [state, setState] = useState<StatePrimitive>()
+  const [state, setState] = useState<StateMinimalView>()
   const [visible, setVisible] = useState(false)
-  function openCard(state: StatePrimitive) {
+  function openCard(state: StateMinimalView) {
     setState(state)
     setVisible(true)
   }
@@ -191,7 +191,7 @@ const ListView: React.FC<Props> = ({
     setShowDropzone(true)
   }
 
-  function onDrop(e: React.DragEvent<HTMLDivElement>, state: StatePrimitive) {
+  function onDrop(e: React.DragEvent<HTMLDivElement>, state: StateMinimalView) {
     events.onDropTask(e, state)
     e.stopPropagation()
     setShowDropzone(false)

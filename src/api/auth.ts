@@ -5,7 +5,7 @@ import {
   Response,
   SignUpPayload,
   SignUpResponse
-} from 'generated/models'
+} from 'generated/views'
 import { RequestAPI } from './request'
 
 // All endpoints under the '/auth' prefix

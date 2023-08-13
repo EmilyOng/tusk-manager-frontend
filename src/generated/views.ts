@@ -2,57 +2,38 @@
 
 import { Color } from './types'
 import { Role } from './types'
-import { ErrorCode } from './types'
 
-export interface User {
+export interface AuthUserView {
     id: string;
     name: string;
     email: string;
+    token: string;
+}
+export interface AuthUserResponse {
+    message: string;
+    code: number;
+    data: AuthUserView;
+}
+export interface LoginPayload {
+    email: string;
     password: string;
-    boardMembers: Member[];
-    tasks: Task[];
 }
-export interface Member {
-    id: string;
-    role: Role;
-    userId?: string;
-    user?: User;
-    boardId?: string;
+export interface LoginResponse {
+    message: string;
+    code: number;
+    data: AuthUserView;
 }
-export interface State {
-    id: string;
+export interface SignUpPayload {
     name: string;
-    currentPosition: number;
-    tasks: Task[];
-    boardId?: string;
+    email: string;
+    password: string;
 }
-export interface Tag {
-    id: string;
-    name: string;
-    color: Color;
-    tasks: Task[];
-    boardId?: string;
+export interface SignUpResponse {
+    message: string;
+    code: number;
+    data: AuthUserView;
 }
-export interface Task {
-    id: string;
-    name: string;
-    description: string;
-    dueAt?: Date;
-    tags: Tag[];
-    userId?: string;
-    boardId?: string;
-    stateId?: string;
-}
-export interface Board {
-    id: string;
-    name: string;
-    color: Color;
-    tasks: Task[];
-    tags: Tag[];
-    states: State[];
-    boardMembers: Member[];
-}
-export interface BoardPrimitive {
+export interface BoardMinimalView {
     id: string;
     name: string;
     color: Color;
@@ -61,8 +42,9 @@ export interface GetBoardPayload {
     id: string;
 }
 export interface GetBoardResponse {
-    error: ErrorCode;
-    data: BoardPrimitive;
+    message: string;
+    code: number;
+    data: BoardMinimalView;
 }
 export interface CreateBoardPayload {
     name: string;
@@ -70,8 +52,9 @@ export interface CreateBoardPayload {
     userId: string;
 }
 export interface CreateBoardResponse {
-    error: ErrorCode;
-    data: BoardPrimitive;
+    message: string;
+    code: number;
+    data: BoardMinimalView;
 }
 export interface UpdateBoardPayload {
     id: string;
@@ -80,74 +63,93 @@ export interface UpdateBoardPayload {
     userId: string;
 }
 export interface UpdateBoardResponse {
-    error: ErrorCode;
-    data: BoardPrimitive;
+    message: string;
+    code: number;
+    data: BoardMinimalView;
 }
 export interface GetBoardTasksPayload {
     boardId: string;
 }
+export interface Tag {
+    id: string;
+    name: string;
+    color: Color;
+    tasks: Task[];
+    boardId: string;
+}
+export interface Task {
+    id: string;
+    name: string;
+    description: string;
+    dueAt?: Date;
+    tags: Tag[];
+    userId: string;
+    boardId: string;
+    stateId: string;
+}
 export interface GetBoardTasksResponse {
-    error: ErrorCode;
+    message: string;
+    code: number;
     data: Task[];
 }
 export interface GetBoardTagsPayload {
     boardId: string;
 }
-export interface TagPrimitive {
+export interface TagMinimalView {
     id: string;
     name: string;
     color: Color;
-    boardId?: string;
+    boardId: string;
 }
 export interface GetBoardTagsResponse {
-    error: ErrorCode;
-    data: TagPrimitive[];
+    message: string;
+    code: number;
+    data: TagMinimalView[];
 }
 export interface GetBoardMemberProfilesPayload {
     boardId: string;
 }
-export interface Profile {
+export interface UserMinimalView {
     id: string;
     name: string;
     email: string;
 }
-export interface MemberProfile {
+export interface MemberFullView {
     id: string;
     role: Role;
-    profile: Profile;
+    user: UserMinimalView;
 }
 export interface GetBoardMemberProfilesResponse {
-    error: ErrorCode;
-    data: MemberProfile[];
+    message: string;
+    code: number;
+    data: MemberFullView[];
 }
 export interface GetBoardStatesPayload {
     boardId: string;
 }
-export interface StatePrimitive {
+export interface StateMinimalView {
     id: string;
     name: string;
     currentPosition: number;
-    boardId?: string;
+    boardId: string;
 }
 export interface GetBoardStatesResponse {
-    error: ErrorCode;
-    data: StatePrimitive[];
+    message: string;
+    code: number;
+    data: StateMinimalView[];
 }
 export interface DeleteBoardPayload {
     id: string;
 }
 export interface DeleteBoardResponse {
-    error: ErrorCode;
+    message: string;
+    code: number;
 }
-export interface Response {
-    error: ErrorCode;
-}
-
-export interface MemberPrimitive {
+export interface MemberMinimalView {
     id: string;
     role: Role;
-    userId?: string;
-    boardId?: string;
+    userId: string;
+    boardId: string;
 }
 
 export interface CreateMemberPayload {
@@ -156,32 +158,46 @@ export interface CreateMemberPayload {
     boardId: string;
 }
 export interface CreateMemberResponse {
-    error: ErrorCode;
-    data: MemberProfile;
+    message: string;
+    code: number;
+    data: MemberFullView;
 }
 export interface UpdateMemberPayload {
     id: string;
     role: Role;
 }
 export interface UpdateMemberResponse {
-    error: ErrorCode;
-    data: MemberProfile;
+    message: string;
+    code: number;
+    data: MemberFullView;
 }
 export interface DeleteMemberPayload {
     id: string;
 }
 export interface DeleteMemberResponse {
-    error: ErrorCode;
+    message: string;
+    code: number;
 }
-
+export interface Response {
+    message: string;
+    code: number;
+}
 
 export interface CreateStatePayload {
     name: string;
     boardId: string;
     currentPosition: number;
 }
+export interface State {
+    id: string;
+    name: string;
+    currentPosition: number;
+    tasks: Task[];
+    boardId: string;
+}
 export interface CreateStateResponse {
-    error: ErrorCode;
+    message: string;
+    code: number;
     data: State;
 }
 export interface UpdateStatePayload {
@@ -191,16 +207,17 @@ export interface UpdateStatePayload {
     currentPosition: number;
 }
 export interface UpdateStateResponse {
-    error: ErrorCode;
-    data: StatePrimitive;
+    message: string;
+    code: number;
+    data: StateMinimalView;
 }
 export interface DeleteStatePayload {
     id: string;
 }
 export interface DeleteStateResponse {
-    error: ErrorCode;
+    message: string;
+    code: number;
 }
-
 
 export interface CreateTagPayload {
     name: string;
@@ -208,8 +225,9 @@ export interface CreateTagPayload {
     boardId: string;
 }
 export interface CreateTagResponse {
-    error: ErrorCode;
-    data: TagPrimitive;
+    message: string;
+    code: number;
+    data: TagMinimalView;
 }
 export interface UpdateTagPayload {
     id: string;
@@ -218,36 +236,35 @@ export interface UpdateTagPayload {
     color: Color;
 }
 export interface UpdateTagResponse {
-    error: ErrorCode;
-    data: TagPrimitive;
+    message: string;
+    code: number;
+    data: TagMinimalView;
 }
 export interface DeleteTagPayload {
     id: string;
 }
 export interface DeleteTagResponse {
-    error: ErrorCode;
+    message: string;
+    code: number;
 }
-
-export interface TaskPrimitive {
+export interface TaskMinimalView {
     id: string;
     name: string;
     description: string;
     dueAt?: Date;
-    userId?: string;
-    boardId?: string;
-    stateId?: string;
 }
 export interface CreateTaskPayload {
     name: string;
     description: string;
     dueAt?: Date;
-    stateId?: string;
-    tags: TagPrimitive[];
-    boardId?: string;
-    userId?: string;
+    stateId: string;
+    tags: TagMinimalView[];
+    boardId: string;
+    userId: string;
 }
 export interface CreateTaskResponse {
-    error: ErrorCode;
+    message: string;
+    code: number;
     data: Task;
 }
 export interface UpdateTaskPayload {
@@ -256,50 +273,27 @@ export interface UpdateTaskPayload {
     description: string;
     dueAt?: Date;
     stateId: string;
-    tags: TagPrimitive[];
+    tags: TagMinimalView[];
     boardId: string;
     userId: string;
 }
 export interface UpdateTaskResponse {
-    error: ErrorCode;
+    message: string;
+    code: number;
     data: Task;
 }
 export interface DeleteTaskPayload {
     id: string;
 }
 export interface DeleteTaskResponse {
-    error: ErrorCode;
+    message: string;
+    code: number;
 }
-
-
-export interface AuthUser {
-    id: string;
-    name: string;
-    email: string;
-    token: string;
-}
-export interface AuthUserResponse {
-    error: ErrorCode;
-    data: AuthUser;
-}
-export interface LoginPayload {
-    email: string;
-    password: string;
-}
-export interface LoginResponse {
-    error: ErrorCode;
-    data: AuthUser;
-}
-export interface SignUpPayload {
-    name: string;
-    email: string;
-    password: string;
-}
-export interface SignUpResponse {
-    error: ErrorCode;
-    data: AuthUser;
+export interface GetUserBoardsPayload {
+    userId: string;
 }
 export interface GetUserBoardsResponse {
-    error: ErrorCode;
-    data: BoardPrimitive[];
+    message: string;
+    code: number;
+    data: BoardMinimalView[];
 }

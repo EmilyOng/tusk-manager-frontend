@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { MemberProfile } from 'generated/models'
+import { MemberFullView } from 'generated/views'
 import { Role } from 'generated/types'
 import { selectMe } from 'store/me'
 import FormMembersShare, {
@@ -14,7 +14,7 @@ export type ShareForm = ShareForm_
 
 type Props = {
   boardId: string
-  members: MemberProfile[]
+  members: MemberFullView[]
   events: {
     onShare: (form: ShareForm, cb: () => void) => any
     onUpdateSharings: (members: EditableMemberProfile[], cb: () => void) => any
@@ -29,7 +29,7 @@ const FormMembersManage: React.FC<Props> = ({
   const { user: me } = useSelector(selectMe)
   const [canUpdateSharings, setCanUpdateSharings] = useState(false)
   useEffect(() => {
-    const meMember = members_.find((m) => m.profile.id === me?.id)
+    const meMember = members_.find((m) => m.user.id === me?.id)
     setCanUpdateSharings(meMember?.role === Role.Owner)
     return () => {
       setCanUpdateSharings(false)
