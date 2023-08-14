@@ -2,7 +2,7 @@
 
 ![Vercel](https://vercelbadge.vercel.app/api/EmilyOng/cvwo-frontend)
 
-Application: https://app.tuskmanager.rocks
+Application: https://tusk-manager.vercel.app
 
 ## Getting Started
 
