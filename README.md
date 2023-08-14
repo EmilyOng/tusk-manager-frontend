@@ -1,6 +1,6 @@
 # frontend
 
-![Vercel](https://vercelbadge.vercel.app/api/EmilyOng/cvwo-frontend)
+![Vercel](https://vercelbadge.vercel.app/api/EmilyOng/tusk-manager-frontend)
 
 Application: https://tusk-manager.vercel.app
 
