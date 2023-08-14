@@ -20,7 +20,7 @@ Furthermore, it uses [Bulma](https://bulma.io/) as the CSS library-of-choice due
 
 The only environment variable needed is `REACT_APP_SERVER_URL`. This refers to the url that the application will make [API](src/api/request.ts) calls to.
 
-- (In `.env.production`) `REACT_APP_SERVER_URL`: https://tusk-manager-backend.herokuapp.com/api
+- (In `.env.production`) `REACT_APP_SERVER_URL`: https://tusk-manager-backend.onrender.com/api
 - (In `.env.development`): `REACT_APP_SERVER_URL`: http://localhost:8080/api
 
 ### Directory Structure
